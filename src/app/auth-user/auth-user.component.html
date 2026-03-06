@@ -1,0 +1,72 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form class="login-form">
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required [formControl]="email">
+                </div>
+                <div >
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required [formControl]="password">
+                </div>
+                <button type="submit" [disabled]="email.invalid || password.invalid" (click)="onLogin()" class="btn btn-primary btn-block">Login</button>
+            </form>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<h1>FormGroup</h1>
+<form  {form}   >
+  <div >
+    <label >Name:</label>
+    <input type="text" class="form-control" formControlName="name">
+    <div class="alert alert-danger" *ngIf="UserForm.controls['name'].invalid && UserForm.controls['name'].touched" >
+      <p *ngIf="UserForm.controls['name'].hasError('required')">Name is required</p>
+      <p *ngIf="UserForm.controls['name'].hasError('minlength')">Name must be at least 5 characters long.</p>
+
+    </div>
+</div>
+    <!-- Email -->
+<div>
+  <label>Email:</label>
+  <input type="email" class="form-control" formControlName="email">
+  <div class="alert alert-danger" *ngIf="UserForm.controls['email'].invalid && UserForm.controls['email'].touched">
+    <p *ngIf="UserForm.controls['email'].hasError('required')">Email is required.</p>
+    <p *ngIf="UserForm.controls['email'].hasError('email')">Enter a valid email address.</p>
+  </div>
+</div>
+
+<!-- Phone -->
+<div>
+  <label>Phone:</label>
+  <input type="tel" class="form-control" formControlName="phone">
+  <div class="alert alert-danger" *ngIf="UserForm.controls['phone'].invalid && UserForm.controls['phone'].touched">
+    <p *ngIf="UserForm.controls['phone'].hasError('required')">Phone number is required.</p>
+    <p *ngIf="UserForm.controls['phone'].hasError('pattern')">Enter a valid international phone number.</p>
+  </div>
+</div>
+
+<!-- Address -->
+<div>
+  <label>Address:</label>
+  <input type="text" class="form-control" formControlName="address">
+  <div class="alert alert-danger" *ngIf="UserForm.controls['address'].invalid && UserForm.controls['address'].touched">
+    <p *ngIf="UserForm.controls['address'].hasError('required')">Address is required.</p>
+  </div>
+</div>
+
+<!-- Password -->
+<div>
+  <label>Password:</label>
+  <input type="password" class="form-control" formControlName="password">
+  <div class="alert alert-danger" *ngIf="UserForm.controls['password'].invalid && UserForm.controls['password'].touched">
+    <p *ngIf="UserForm.controls['password'].hasError('required')">Password is required.</p>
+    <p *ngIf="UserForm.controls['password'].hasError('minlength')">Password must be at least 8 characters long.</p>
+  </div>
+</div>  <button type="submit" [disabled]="UserForm.invalid">Login</button>
+  </form>

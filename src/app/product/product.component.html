@@ -1,0 +1,237 @@
+<h2>Liste des produits</h2>
+
+<ul class="product-list">
+  <li *ngFor="let product of products" class="product-item">
+    <!-- Informations produit -->
+    <div class="product-info">
+      <span class="product-name">{{ product.name }}</span>
+      <span class="product-price">{{ product.price | currency:'EUR' }}</span>
+      <span class="product-id">ID: {{ product.id }}</span>
+    </div>
+    
+    <!-- Quantité et bouton -->
+    <div class="product-controls">
+      <div class="quantity-display">
+        <span class="quantity-label">Qté:</span>
+        <span class="quantity-value">{{ product.quantity }}</span>
+      </div>
+      
+      <button class="buy-btn" 
+              (click)="buyProduct(product)"
+              [disabled]="product.quantity === 0"
+              [class.disabled]="product.quantity === 0">
+        {{ product.quantity === 0 ? 'Épuisé' : 'Acheter' }}
+      </button>
+    </div>
+  </li>
+</ul>
+<style>
+/* === BOUTON ACHETER (Normal) === */
+.btn-buy {
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+}
+
+.btn-buy:hover:not(.disabled) {
+  background: linear-gradient(135deg, #219653 0%, #27ae60 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+}
+
+.btn-buy:active:not(.disabled) {
+  transform: translateY(0);
+}
+
+.btn-buy::before {
+  content: "🛒";
+  font-size: 1.2rem;
+}
+
+/* === BOUTON ÉPUISÉ (Disabled) === */
+.btn-buy.disabled {
+  background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+  color: #ecf0f1;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.btn-buy.disabled::before {
+  content: "⛔";
+}
+
+/* === BOUTON RÉINITIALISER === */
+.btn-reset {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.btn-reset:hover {
+  background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.btn-reset:active {
+  transform: translateY(0);
+}
+
+.btn-reset::before {
+  content: "🔄";
+  font-size: 1.2rem;
+}
+</style>
+
+<style>
+/* Conteneur principal */
+.product-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  max-width: 500px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Élément de liste */
+.product-item {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-left: 4px solid #3498db;
+  margin-bottom: 12px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Effet au survol */
+.product-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+  border-left-color: #e74c3c;
+}
+
+/* Style pour le nom du produit */
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  flex: 2;
+}
+
+/* Style pour le prix */
+.product-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #27ae60;
+  background-color: rgba(39, 174, 96, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin: 0 15px;
+}
+
+/* Style pour l'ID */
+.product-id {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  background-color: #ecf0f1;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+/* Animation d'entrée */
+.product-item {
+  animation: slideIn 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.product-item:nth-child(1) { animation-delay: 0.1s; }
+.product-item:nth-child(2) { animation-delay: 0.2s; }
+.product-item:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Badge pour le produit le plus cher */
+.product-item:first-child {
+  position: relative;
+  background: linear-gradient(135deg, #fff8e1 0%, #fff3cd 100%);
+  border-left-color: #f39c12;
+}
+
+.product-item:first-child::before {
+  content: "★ POPULAIRE";
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  background: #f39c12;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .product-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .product-price, .product-id {
+    margin: 0;
+    align-self: flex-start;
+  }
+  
+  .product-item:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Indicateur de chargement (optionnel) */
+.product-list:empty::after {
+  content: "Chargement des produits...";
+  display: block;
+  padding: 20px;
+  text-align: center;
+  color: #95a5a6;
+  font-style: italic;
+}
+
+/* Effet de sélection */
+.product-item:active {
+  transform: scale(0.98);
+}
+</style>
